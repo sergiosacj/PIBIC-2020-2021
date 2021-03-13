@@ -72,8 +72,8 @@ end
 
 function NLPModels.hess_coord!(nlp :: RegNLP, x :: AbstractVector, vals :: AbstractVector; obj_weight :: Real=1.0)
   nz = nlp.inner.meta.nnzh
-  n = nlp.meta.nvar
   @views hess_coord!(nlp.inner, x, vals[1:nz]; obj_weight=obj_weight)
+  vals[nz+1:end] .= 1 * obj_weight
   return vals
 end
 

@@ -22,3 +22,19 @@ $ julia
 julia> ]
 (@v1.5) pkg> add CUTEst, NLPModels, NLPModelsIpopt, LinearAlgebra, Printf, SparseArrays
 ```
+
+# Informações extras
+
+Como eu também não tenho muita familiaridade com todas as ferramentas de Julia, vou colocar nessa seção uma lista de materiais que estão me ajudando a entender melhor certos conceitos.
+
+Link que explica o que é "@views":
+
+```
+https://discourse.julialang.org/t/could-you-explain-what-are-views/17535/2
+```
+
+Legenda dos termos utilizados no NLPModels:
+
+```
+https://github.com/JuliaSmoothOptimizers/NLPModels.jl#attributes
+```
