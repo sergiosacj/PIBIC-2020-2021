@@ -1,11 +1,10 @@
 using CUTEst
-using NLPModels, NLPModelsIpopt
-include("RegularizationModel.jl")
-using .RegularizationModel
+using NLPModels
+include("IpoptRegModel.jl")
 
 function ARp(nlp::AbstractNLPModel;
              e = 1e-8,
-             kMAX = 1e3,
+             kMAX = 1000,
              sigma_min = 1e-8,
              sigma = sigma_min,
              theta = 100,
@@ -30,12 +29,8 @@ function ARp(nlp::AbstractNLPModel;
             end
         end
         # step 2
-        rnlp = RegNLP(nlp, sigma, x)
-        println(rnlp)
-        stats = ipopt(rnlp)
-        println("STATS SOLUTION")
-        println(stats)
-        s = stats.solution
+        stats, problem = solve_subproblem(nlp, sigma, x)
+        s = problem.x
         # step 3
         objx = obj(nlp, x)
         objxs = obj(nlp, x+s)
@@ -51,7 +46,6 @@ function ARp(nlp::AbstractNLPModel;
             sigma = gama2*sigma
         end
         k+=1
-        finalize(rnlp)
     end
 end
 
