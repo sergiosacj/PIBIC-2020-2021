@@ -1,7 +1,7 @@
 using NLPModels
 using LinearAlgebra
 using Ipopt
-using LinearOperators
+using SparseArrays
 """
 Model
     f(x) + ∇f * s + ∇²f * s² / 2 + sigma/(p+1) * ‖s‖^(p+1)
@@ -32,6 +32,7 @@ function solve_subproblem(nlp :: AbstractNLPModel, sigma, x)
     rnlp = RegNLP(nlp, sigma, x)
 
     function eval_f(x::Vector{Float64})
+        println("PASSOU POR AQUI OBJ")
         if x == 0
             return rnlp.objx
         end
@@ -47,6 +48,7 @@ function solve_subproblem(nlp :: AbstractNLPModel, sigma, x)
     end
 
     function eval_grad_f(x::Vector{Float64}, grad_f::Vector{Float64})
+        println("PASSOU POR AQUI GRAD")
         grad_f = rnlp.gradx + rnlp.hessx * x + rnlp.sigma * norm(x)^(rnlp.p-1) * x
         return
     end
@@ -65,14 +67,21 @@ function solve_subproblem(nlp :: AbstractNLPModel, sigma, x)
       values::Vector{Float64},    # The values of the Hessian
     )
         n = rnlp.inner.meta.nvar
-        H = rnlp.hessx + (rnlp.p - 1) * rnlp.sigma * norm(x)^(rnlp.p - 2) * sum(x .* x)
         idx = 1
-        for i = 1:n
-            for j = 1:n
-                rows[idx] = i
-                cols[idx] = j
-                values[idx] = H[i, j]
-                idx = idx+1
+        if mode == :Structure
+            for i = 1:n
+                for j = 1:i
+                    rows[idx] = i
+                    cols[idx] = j
+                    idx = idx+1
+                end
+            end
+        else
+            for i = 1:n
+                for j = 1:i
+                    values[idx] = rnlp.hessx[i,j] + rnlp.sigma * x[i]*x[j]
+                    idx = idx+1
+                end
             end
         end
         return           
@@ -97,7 +106,7 @@ function solve_subproblem(nlp :: AbstractNLPModel, sigma, x)
     # Set starting solution
     problem.x = nlp.meta.x0
 
-    finalize(rnlp)
+    # finalize(rnlp)
 
     return solveProblem(problem), problem
 end

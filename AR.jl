@@ -17,16 +17,18 @@ function ARp(nlp::AbstractNLPModel;
     k = 0
     x = nlp.meta.x0
     gradient = grad(nlp, x)
+    hessian = hess_op(nlp, x)
     p = 0
 
     while k<kMAX
         # step 1
         if p >= eta1
+            x = x+s
             gradient = grad(nlp, x)
-            gradientNorm = sqrt(sum(gradient*grandient))
-            if gradientNorm < e
+            if sqrt(sum(gradient.*gradident)) <= e
                 break
             end
+            hessian = hess_op(nlp, x)
         end
         # step 2
         stats, problem = solve_subproblem(nlp, sigma, x)
@@ -35,10 +37,7 @@ function ARp(nlp::AbstractNLPModel;
         objx = obj(nlp, x)
         objxs = obj(nlp, x+s)
         p = objx - objxs
-        p /= objx - Taylor(s, objxs, gradient, hess_op(nlp, x))
-        if p >= eta1
-            x = x+s
-        end
+        p /= objx - Taylor(s, objxs, gradient, hessian)
         # step 4
         if p >= eta2
             sigma = maximum(sigma_min, gama1*sigma)
@@ -46,11 +45,11 @@ function ARp(nlp::AbstractNLPModel;
             sigma = gama2*sigma
         end
         k+=1
+        println("K = $(k)")
     end
 end
 
 function Taylor(s :: Array, obj :: Float64, gradient :: Array, hessian)
-    sT = transpose(s)
-    return obj + sum(sT*gradient) + sum(sT*(hessian*s)) / 2
+    return obj + sum(s.*gradient) + sum(s.*(hessian*s)) / 2
 end
 
