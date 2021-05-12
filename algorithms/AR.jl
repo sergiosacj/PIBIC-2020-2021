@@ -19,16 +19,18 @@ function ARp(nlp::AbstractNLPModel;
     x = nlp.meta.x0
     p = 0
     s = fill(0.0, size(x))
+    gradient = grad(nlp, x)
+    hessian = hess(nlp, x)
 
     file = open("OUTPUTS/output.txt", "w")
     printHeader(file)
 
     while k<kMAX
-        gradient = grad(nlp, x)
-        hessian = hess(nlp, x)
         # step 1
         if p >= eta1
             x = x+s
+            gradient = grad(nlp, x)
+            hessian = hess(nlp, x)
             if sqrt(sum(gradient.*gradient)) <= e
                 printEach([k, objx, sqrt(sum(gradient.*gradient)), sigma, p, eta1], file)
                 break

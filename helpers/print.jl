@@ -10,7 +10,7 @@ function printHeader(file)
     @printf(file, "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\n")
 
     println(file, repeat("_", 90))
-    @printf(file, "%-6s  %-15s  %-15s  %-15s  %-15s %-15s\n",
+    @printf(file, "%-6s  %-15s  %-15s  %-15s  %-15s  %-15s\n",
                   "iter", "f(x*)", "‖∇f(x)‖", "sigma", "p", "eta1")
     println(file, repeat("‾", 90))
 end
