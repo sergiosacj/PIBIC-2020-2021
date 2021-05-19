@@ -1,4 +1,4 @@
-using LinearAlgebra, NLPModels, NLPModelsIpopt, Printf, SparseArrays
+using LinearAlgebra, NLPModels, Printf, SparseArrays
 using CUTEst
 include("../algorithms/AR.jl")
 

@@ -5,45 +5,53 @@ include("../models/NCGRegModel.jl")
 
 function ARp(nlp::AbstractNLPModel;
              e = 1e-8,
-             kMAX = 1000,
+             e_rel = 1e-9,
+             kMAX = 500,
              sigma_min = 1e-8,
-             sigma = sigma_min,
              theta = 100,
              gama1 = 0.5,
              gama2 = 10,
-             J = 0,
-             eta1 = 10,
-             eta2 = 2)
+             J = 20,
+             alpha = 1e-8,
+             eta1 = 1000,
+             eta2 = 3)
     # step 0
-    k = 0
+    j = 0
+    p = 0.0
+    sigma = 0.0
     x = nlp.meta.x0
-    p = 0
     s = fill(0.0, size(x))
     gradient = grad(nlp, x)
     hessian = hess(nlp, x)
+    gradient_norm = sqrt(sum(gradient.*gradient))
 
     file = open("OUTPUTS/output.txt", "w")
     printHeader(file)
 
+    k = 0
     while k<kMAX
         # step 1
         if p >= eta1
-            x = x+s
+            x = x.+s
             gradient = grad(nlp, x)
             hessian = hess(nlp, x)
-            if sqrt(sum(gradient.*gradient)) <= e
-                printEach([k, objx, sqrt(sum(gradient.*gradient)), sigma, p, eta1], file)
+            gradient_norm = sqrt(sum(gradient.*gradient))
+            if sqrt(sum(gradient_norm)) <= e
+                printEach([k, objx, gradient_norm, sigma, p, eta1], file)
                 break
             end
         end
+
         # step 2
         rnlp, problem, solution = solve_subproblem(nlp, sigma, x)
         s = solution[1]
+
         # step 3
-        objx = problem.obj(s)
+        objx = problem.obj(s-s)
         objxs = problem.obj(x.+s)
         p = objx - objxs
         p /= objx - Taylor(s, objxs, gradient, hessian)
+
         # step 4
         if p >= eta2
             sigma = maximum(sigma_min, gama1*sigma)
@@ -52,7 +60,7 @@ function ARp(nlp::AbstractNLPModel;
         end
         k+=1
 
-        printEach([k, objxs, sqrt(sum(gradient.*gradient)), sigma, p, eta1], file)
+        printEach([k, objxs, gradient_norm, sigma, p, eta1], file)
         println("s = $(s)")
         if k%40 == 0
             printHeader(file)
