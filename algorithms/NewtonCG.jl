@@ -41,7 +41,7 @@ function newtoncg(problemTools; tle = 10, e = 1e-8, itMAX = 1e3)
 			∇fnorm = sqrt(sum(∇f.*∇f))
             gcnt += 1
             if ∇fnorm < e
-                stop = 2
+                stop = 0
                 break
 			end
 
@@ -72,7 +72,7 @@ function newtoncg(problemTools; tle = 10, e = 1e-8, itMAX = 1e3)
 	close(file)
     values = [allobj, all∇f, allalpha, allpnorm]
 	fcnt += itBLS
-	return x
+	return x, stop
 end
 
 function conjugategradient(r, B)
