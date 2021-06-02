@@ -24,12 +24,7 @@ mutable struct problem
 end
 
 function RegNLP(nlp :: AbstractNLPModel, sigma, x, p = 2)
-  return RegNLP(nlp,
-                obj(nlp, x),
-                grad(nlp, x),
-                hess(nlp, x),
-                sigma,
-                p)
+  return RegNLP(nlp, obj(nlp, x), grad(nlp, x), hess_op(nlp, x), sigma, p)
 end
 
 function solve_subproblem(nlp :: AbstractNLPModel, sigma, x)
