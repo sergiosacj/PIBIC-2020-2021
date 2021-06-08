@@ -23,12 +23,12 @@ mutable struct problem
     size
 end
 
-function RegNLP(nlp :: AbstractNLPModel, sigma, x, p = 2)
+function RegNLP(nlp :: AbstractNLPModel, sigma, x, p)
   return RegNLP(nlp, obj(nlp, x), grad(nlp, x), hess_op(nlp, x), sigma, p)
 end
 
-function solve_subproblem(nlp :: AbstractNLPModel, sigma, x)
-    rnlp = RegNLP(nlp, sigma, x)
+function solve_subproblem(nlp :: AbstractNLPModel, sigma, x, p)
+    rnlp = RegNLP(nlp, sigma, x, p)
 
     function eval_f(s)
         return rnlp.objx + sum(s.*rnlp.gradx) + sum(s.*(rnlp.hessx*s)) / 2 + rnlp.sigma / (rnlp.p+1) * norm(s)^(rnlp.p+1)
