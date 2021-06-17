@@ -1,7 +1,7 @@
 using CUTEst
 using NLPModels
 include("../helpers/print.jl")
-include("../models/NCGRegModel.jl")
+include("../models/ARpRegModel.jl")
 
 function ARp(nlp::AbstractNLPModel;
              p = 2,
