@@ -1,5 +1,4 @@
-using LinearAlgebra, NLPModels, Printf, SparseArrays
-using CUTEst
+using CUTEst, Printf, TimerOutputs
 include("../algorithms/AR.jl")
 
 function tests()

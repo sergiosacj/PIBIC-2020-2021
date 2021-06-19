@@ -32,7 +32,6 @@ function newtoncg(problemTools; tle = 10, e = 1e-8, itMAX = 1e3)
 		allalpha = zeros(Float64, Integer(itMAX))
 		allpnorm = zeros(Float64, Integer(itMAX))
 		x = fill(0.0, problemTools.size)
-		file = open("OUTPUTS/tmp.txt", "a+")
 
 		∇f = ∇fnorm = 0
 		while it<itMAX
@@ -62,24 +61,17 @@ function newtoncg(problemTools; tle = 10, e = 1e-8, itMAX = 1e3)
             all∇f[it] = ∇fnorm
             allalpha[it] = alpha
 			allpnorm[it] = sqrt(sum(p.*p))
-			println(file, "obj   -> $(allobj[it])")
-			println(file, "grad  -> $(all∇f[it])")
-			println(file, "alpha -> $(allalpha[it])")
-			println(file, "pnorm -> $(allpnorm[it])")
 		end
 	end
-	println(file, "stop -> $(stop)")
-	close(file)
     values = [allobj, all∇f, allalpha, allpnorm]
-	fcnt += itBLS
 	return x, stop
 end
 
 function conjugategradient(r, B)
 	# output: search direction, iterations, failure
 	d = r
-	z = zeros(Float64, size(d,1)) # is z = d-d faster?
-	rip = ripold = sum(r.*r) # r inner product
+	z = d-d
+	rip = ripold = sum(r.*r)
 	∇fnorm = sqrt(rip)
 	e = min(0.5, sqrt(∇fnorm))*∇fnorm
 	

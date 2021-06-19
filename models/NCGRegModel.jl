@@ -1,7 +1,6 @@
 using NLPModels
 using CUTEst
 using LinearAlgebra
-include("../algorithms/NewtonCG.jl")
 
 mutable struct problem
     obj
@@ -10,19 +9,18 @@ mutable struct problem
     size
 end
 
-nlp = CUTEstModel("ROSENBR")
+function problemTools(nlp)
+    function eval_f(x)
+        return obj(nlp, x)
+    end
 
-function eval_f(x)
-    return obj(nlp, x)
+    function eval_g(x)
+        return grad(nlp, x)
+    end
+
+    function eval_h(x)
+        return hess_op(nlp, x)
+    end
+
+    problem(eval_f, eval_g, eval_h, size(nlp.meta.x0))
 end
-
-function eval_g(x)
-    return grad(nlp, x)
-end
-
-function eval_h(x)
-    return hess_op(nlp, x)
-end
-
-problemTools = problem(eval_f, eval_g, eval_h, size(nlp.meta.x0))
-

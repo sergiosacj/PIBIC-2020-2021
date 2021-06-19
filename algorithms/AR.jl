@@ -17,13 +17,9 @@ function ARp(nlp::AbstractNLPModel;
              kMAX = 500)
     sigma_ini = sigma_low
     k = 0
-
     x = nlp.meta.x0
     s = fill(0.0, size(x))
     gradx = grad(nlp, x)
-
-    file = open("OUTPUTS/output.txt", "w")
-    printHeader(file)
 
     # step 1
     sigma = 0.0
@@ -80,13 +76,6 @@ function ARp(nlp::AbstractNLPModel;
             j += 1
         end
     end
-
-    # Print results
-    objx = obj(nlp, x)
-    gradx = grad(nlp, x)
-    gradx_norm = sqrt(sum(gradx.*gradx))
-    printProblemInfo([objx, gradx_norm, k], file)
-    close(file)
 end
 
 function taylor(s, objective, gradient, hessian)
