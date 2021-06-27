@@ -10,27 +10,38 @@ function printHeader(file)
     @printf(file, "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\n")
 
     println(file, repeat("_", 90))
-    @printf(file, "%-6s  %-15s  %-15s  %-15s  %-15s  %-15s\n",
-                  "iter", "f(x*)", "‖∇f(x)‖", "sigma", "p", "eta1")
+    @printf(file, "%-5s  %-15s  %-15s %-15s\n", "iter", "f(x*)", "‖∇f(x)‖", "sigma")
     println(file, repeat("‾", 90))
 end
 
 function printEach(output::Array, file)
     k = output[1]
-    obj = output[2]
-    grad = output[3]
-    sigma = output[4]
-    p = output[5]
-    eta1 = output[6]
+    allf = output[5]
+    allg = output[6]
+    allsigma = output[7]
 
-    @printf(file, "%-6d  %-15e  %-15e  %-15e  %-15e  %-15e\n",
-            k, obj, grad, sigma, p, eta1)
+    for i=1:k-1
+        @printf(file, "%-5d  %-15e  %-15e %-15e\n", i, allf[i], allg[i], allsigma[i])
+    end
 end
 
 function printProblemInfo(output::Array, file)
+    k = output[1]
+    fcnt = output[2]
+    gcnt = output[3]
+    hcnt = output[4]
+    allf = output[5]
+    allg = output[6]
+    allsigma = output[7]
+
+    @printf(file, "\n\n")
     @printf(file, "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ summary statistics ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\n")
-    @printf(file, "Objective.............: %e\n", output[1])
-    @printf(file, "Gradient norm.........: %e\n", output[2])
-    @printf(file, "Total iterations......: %d\n", output[3])
+    @printf(file, "Total iterations......: %d\n", k)
+    @printf(file, "AF....................: %d\n", fcnt)
+    @printf(file, "AG....................: %d\n", gcnt)
+    @printf(file, "AH....................: %d\n", hcnt)
+    @printf(file, "f(x*).................: %e\n", allf[k-1])
+    @printf(file, "‖∇f(x)‖...............: %e\n", allg[k-1])
+    @printf(file, "sigma.................: %e\n", allsigma[k-1])
     @printf(file, "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\n\n")
 end
