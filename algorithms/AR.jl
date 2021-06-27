@@ -5,7 +5,7 @@ include("../models/ARpRegModel.jl")
 
 function ARp(nlp::AbstractNLPModel;
              p = 2,
-             e = 1e-8,
+             e = 1e-6,
              alpha = 1e-8,
              eta1 = 1000,
              eta2 = 3,
@@ -15,30 +15,40 @@ function ARp(nlp::AbstractNLPModel;
              gama1 = 0.5,
              gama2 = 10,
              kMAX = 500)
+    # output variables
+    fcnt = gcnt = hcnt = 0
+    stop = 1
+    allf = zeros(Float64, Integer(kMAX))
+    allg = zeros(Float64, Integer(kMAX))
+    allsigma = zeros(Float64, Integer(kMAX))
+
+    # essencial variables
     sigma_ini = sigma_low
-    k = 0
+    k = 1
     x = nlp.meta.x0
     s = fill(0.0, size(x))
     gradx = grad(nlp, x)
+    gcnt += 1
 
     # step 1
     sigma = 0.0
     j = 0
 
     while k<kMAX
-        println("iter      = $(k)")
-        println("x         = $(x)")
-        println("s         = $(s)")
-        println("grad_norm = $(sqrt(sum(gradx.*gradx)))")
-        println("infnorm = $(infnorm(gradx))")
+        println("iteration: $(k)")
+        allsigma[k] = sigma
 
         # stop criteria
-        if infnorm(gradx) <= e 
+        if norm(gradx) <= e
+            stop = 0
             break
         end
 
         # step 2
         rnlp, problem, solution = solve_subproblem(nlp, sigma, x, p)
+        fcnt += 1
+        gcnt += 1
+        hcnt += 1
         stop_status = solution[2]
 
         if j == 0 && stop_status != 0
@@ -48,8 +58,14 @@ function ARp(nlp::AbstractNLPModel;
         end
 
         s = solution[1]
+
         objective = problem.obj(s)
+        allf[k] = objective
+        fcnt += 1
+
         gradient = problem.grad(s)
+        allg[k] = norm(gradient)
+        gcnt += 1
 
         objx = rnlp.objx
         gradx = rnlp.gradx
@@ -64,18 +80,20 @@ function ARp(nlp::AbstractNLPModel;
         # step 3 and 4
         if (j >= J || (eta1_condition <= eta1 && eta2_condition <= eta2)) && objective <= objx - alpha*norm(s)^(p+1)
             # step 5
-            x = x .+ s
+            x = x + s
             sigma_ini = gama1 * (sigma == 0.0 ? sigma_ini : sigma)
             # step 1
             sigma = 0.0
             j = 0
-            k+=1
         else
             # step 3 and 4 (Otherwise)
             sigma = max(sigma_ini, gama2*sigma)
             j += 1
         end
+
+        k+=1
     end
+    return stop, [k, fcnt, gcnt, hcnt, allf, allg, allsigma]
 end
 
 function taylor(s, objective, gradient, hessian)
