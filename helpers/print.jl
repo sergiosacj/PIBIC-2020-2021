@@ -25,7 +25,7 @@ function printEach(output::Array, file)
     end
 end
 
-function printProblemInfo(output::Array, file)
+function printProblemInfo(output::Array, file, stop)
     k = output[1]
     fcnt = output[2]
     gcnt = output[3]
@@ -34,14 +34,17 @@ function printProblemInfo(output::Array, file)
     allg = output[6]
     allsigma = output[7]
 
+    println("k = $(k)")
+
     @printf(file, "\n\n")
     @printf(file, "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ summary statistics ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\n")
     @printf(file, "Total iterations......: %d\n", k)
     @printf(file, "AF....................: %d\n", fcnt)
     @printf(file, "AG....................: %d\n", gcnt)
     @printf(file, "AH....................: %d\n", hcnt)
-    @printf(file, "f(x*).................: %e\n", allf[k-1])
-    @printf(file, "‖∇f(x)‖...............: %e\n", allg[k-1])
-    @printf(file, "sigma.................: %e\n", allsigma[k-1])
+    @printf(file, "f(x*).................: %e\n", allf[k])
+    @printf(file, "‖∇f(x)‖...............: %e\n", allg[k])
+    @printf(file, "sigma.................: %e\n", allsigma[k])
+    @printf(file, "stop..................: %s\n", stop)
     @printf(file, "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\n\n")
 end

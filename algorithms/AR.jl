@@ -1,5 +1,6 @@
 using CUTEst
 using NLPModels
+using TimerOutputs
 include("../helpers/print.jl")
 include("../models/ARpRegModel.jl")
 
@@ -14,7 +15,10 @@ function ARp(nlp::AbstractNLPModel;
              J = 20,
              gama1 = 0.5,
              gama2 = 10,
-             kMAX = 500)
+             kMAX = 500,
+             tle = 1)
+    to = TimerOutput()
+
     # output variables
     fcnt = gcnt = hcnt = 0
     stop = 1
@@ -30,69 +34,79 @@ function ARp(nlp::AbstractNLPModel;
     gradx = grad(nlp, x)
     gcnt += 1
 
-    # step 1
-    sigma = 0.0
-    j = 0
+	@timeit to "ARp" begin
+        # step 1
+        sigma = 0.0
+        j = 0
 
-    while k<kMAX
-        println("iteration: $(k)")
-        allsigma[k] = sigma
+        while k<kMAX
+            println("iteration: $(k)")
+            allsigma[k] = sigma
 
-        # stop criteria
-        if norm(gradx) <= e
-            stop = 0
-            break
-        end
+            # stop criteria
+            if norm(gradx) <= e
+                stop = 0
+                break
+            end
 
-        # step 2
-        rnlp, problem, solution = solve_subproblem(nlp, sigma, x, p)
-        fcnt += 1
-        gcnt += 1
-        hcnt += 1
-        stop_status = solution[2]
+            if k > 1
+                totaltime = TimerOutputs.time(to["ARp"]["newtonCG"])/1e9
+                if totaltime >= tle*60 # minutes
+                    stop = 2
+                    break
+                end
+            end
 
-        if j == 0 && stop_status != 0
-            j = 1
-            sigma = sigma_ini
-            rnlp, problem, solution = solve_subproblem(nlp, sigma, x, p)
-        end
+            # step 2
+            rnlp, problem, solution = @timeit to "newtonCG" solve_subproblem(nlp, sigma, x, p)
+            fcnt += 1
+            gcnt += 1
+            hcnt += 1
+            stop_status = solution[2]
 
-        s = solution[1]
+            if j == 0 && stop_status != 0
+                j = 1
+                sigma = sigma_ini
+                rnlp, problem, solution = @timeit to "newtonCG" solve_subproblem(nlp, sigma, x, p)
+            end
 
-        objective = problem.obj(s)
-        allf[k] = objective
-        fcnt += 1
+            s = solution[1]
 
-        gradient = problem.grad(s)
-        allg[k] = norm(gradient)
-        gcnt += 1
+            objective = problem.obj(s)
+            allf[k] = objective
+            fcnt += 1
 
-        objx = rnlp.objx
-        gradx = rnlp.gradx
-        hessx = rnlp.hessx
+            gradient = problem.grad(s)
+            allg[k] = norm(gradient)
+            gcnt += 1
 
-        # step 3 conditions
-        eta1_condition = objx - taylor(s, objx, gradx, hessx)
-        eta1_condition /= max(1, abs(objx))
+            objx = rnlp.objx
+            gradx = rnlp.gradx
+            hessx = rnlp.hessx
 
-        eta2_condition = norm(s) / max(1, norm(x))
+            # step 3 conditions
+            eta1_condition = objx - taylor(s, objx, gradx, hessx)
+            eta1_condition /= max(1, abs(objx))
 
-        # step 3 and 4
-        if (j >= J || (eta1_condition <= eta1 && eta2_condition <= eta2)) && objective <= objx - alpha*norm(s)^(p+1)
-            # step 5
-            x = x + s
-            sigma_ini = gama1 * (sigma == 0.0 ? sigma_ini : sigma)
-            # step 1
-            sigma = 0.0
-            j = 0
-        else
-            # step 3 and 4 (Otherwise)
-            sigma = max(sigma_ini, gama2*sigma)
-            j += 1
-        end
+            eta2_condition = norm(s) / max(1, norm(x))
 
-        k+=1
-    end
+            # step 3 and 4
+            if (j >= J || (eta1_condition <= eta1 && eta2_condition <= eta2)) && objective <= objx - alpha*norm(s)^(p+1)
+                # step 5
+                x = x + s
+                sigma_ini = gama1 * (sigma == 0.0 ? sigma_ini : sigma)
+                # step 1
+                sigma = 0.0
+                j = 0
+            else
+                # step 3 and 4 (Otherwise)
+                sigma = max(sigma_ini, gama2*sigma)
+                j += 1
+            end
+
+            k+=1
+        end # while
+    end # timeit
     return stop, [k, fcnt, gcnt, hcnt, allf, allg, allsigma]
 end
 

@@ -35,7 +35,7 @@ function solve_subproblem(nlp :: AbstractNLPModel, sigma, x, p)
     end
 
     function eval_g(s)
-        return rnlp.gradx + rnlp.hessx * s + rnlp.sigma * norm(s)^(rnlp.p-1) .* s
+        return rnlp.gradx + rnlp.hessx * s + rnlp.sigma * norm(s)^(rnlp.p-1) * s
     end
 
     function eval_h(s)

@@ -20,11 +20,20 @@ function tests(inputFile)
         nlp = CUTEstModel(name)
         stop, output = ARp(nlp)
 
-        stop == 0 ? println("Converged") : println("Max iteration reached")
+        if stop == 0
+            println("Converged")
+            stop = "Converged"
+        elseif stop == 1
+            println("Max iteration reached")
+            stop = "Max iteration reached"
+        else
+            stop = "Time limit exceeded"
+        end
+
         out = open("Tests/ARp/$(name).out", "w")
         printHeader(out)
         printEach(output, out)
-        printProblemInfo(output, out)
+        printProblemInfo(output, out, stop)
         close(out)
 
         finalize(nlp)
