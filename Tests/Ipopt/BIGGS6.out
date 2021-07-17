@@ -98,28 +98,27 @@ iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
   72  2.0954691e-08 0.00e+00 9.34e-05  -5.7 1.52e-02    -  1.00e+00 1.00e+00f  1
   73  7.8853582e-09 0.00e+00 2.56e-04  -5.7 2.56e-02    -  1.00e+00 1.00e+00f  1
   74  7.1754090e-10 0.00e+00 1.22e-05  -5.7 5.34e-03    -  1.00e+00 1.00e+00f  1
-  75  3.1238291e-11 0.00e+00 1.80e-05  -8.6 6.69e-03    -  1.00e+00 1.00e+00f  1
-  76  2.2598662e-14 0.00e+00 7.60e-08  -8.6 4.20e-04    -  1.00e+00 1.00e+00f  1
-  77  3.7525518e-17 0.00e+00 6.51e-10  -8.6 4.00e-05    -  1.00e+00 1.00e+00f  1
+  75  3.1238291e-11 0.00e+00 1.80e-05  -7.0 6.69e-03    -  1.00e+00 1.00e+00f  1
+  76  2.2598662e-14 0.00e+00 7.60e-08  -7.0 4.20e-04    -  1.00e+00 1.00e+00f  1
 
-Number of Iterations....: 77
+Number of Iterations....: 76
 
                                    (scaled)                 (unscaled)
-Objective...............:   3.7525518162703418e-17    3.7525518162703418e-17
-Dual infeasibility......:   6.5053255474708377e-10    6.5053255474708377e-10
+Objective...............:   2.2598662364419095e-14    2.2598662364419095e-14
+Dual infeasibility......:   7.6001138639799922e-08    7.6001138639799922e-08
 Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
 Complementarity.........:   0.0000000000000000e+00    0.0000000000000000e+00
-Overall NLP error.......:   6.5053255474708377e-10    6.5053255474708377e-10
+Overall NLP error.......:   7.6001138639799922e-08    7.6001138639799922e-08
 
 
-Number of objective function evaluations             = 129
-Number of objective gradient evaluations             = 78
+Number of objective function evaluations             = 128
+Number of objective gradient evaluations             = 77
 Number of equality constraint evaluations            = 0
 Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 0
-Number of Lagrangian Hessian evaluations             = 77
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.034
-Total CPU secs in NLP function evaluations           =      0.002
+Number of Lagrangian Hessian evaluations             = 76
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.026
+Total CPU secs in NLP function evaluations           =      0.001
 
 EXIT: Optimal Solution Found.

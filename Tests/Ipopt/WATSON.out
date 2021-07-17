@@ -30,35 +30,29 @@ iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
   10  1.0519165e-05 0.00e+00 6.83e-03  -2.5 9.82e-03  -2.5 1.00e+00 1.00e+00f  1
   11  6.5022181e-06 0.00e+00 9.70e-04  -3.8 1.67e-02  -3.0 1.00e+00 1.00e+00f  1
   12  5.0936508e-06 0.00e+00 9.82e-06  -5.7 2.84e-02  -3.4 1.00e+00 1.00e+00f  1
-  13  3.8680524e-06 0.00e+00 5.67e-06  -8.6 4.72e-02  -3.9 1.00e+00 1.00e+00f  1
-  14  2.0806253e-06 0.00e+00 4.18e-06  -8.6 9.64e-02  -4.4 1.00e+00 1.00e+00f  1
-  15  7.0366152e-07 0.00e+00 2.41e-06  -8.6 1.26e-01  -4.9 1.00e+00 1.00e+00f  1
-  16  3.6816896e-07 0.00e+00 7.98e-07  -8.6 1.00e-01  -5.4 1.00e+00 1.00e+00f  1
-  17  2.6495151e-07 0.00e+00 2.25e-07  -8.6 1.35e-01  -5.8 1.00e+00 1.00e+00f  1
-  18  1.2103770e-07 0.00e+00 2.67e-07  -8.6 2.97e-01  -6.3 1.00e+00 1.00e+00f  1
-  19  1.1953119e-08 0.00e+00 5.85e-07  -8.6 8.72e-01  -6.8 1.00e+00 1.00e+00f  1
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  20  3.9950152e-09 0.00e+00 3.91e-07  -8.6 1.06e+00  -7.3 1.00e+00 1.00e+00f  1
-  21  2.1316751e-09 0.00e+00 5.43e-09  -8.6 3.20e-01    -  1.00e+00 1.00e+00f  1
+  13  3.8680524e-06 0.00e+00 5.67e-06  -7.0 4.72e-02  -3.9 1.00e+00 1.00e+00f  1
+  14  2.0806253e-06 0.00e+00 4.18e-06  -7.0 9.64e-02  -4.4 1.00e+00 1.00e+00f  1
+  15  7.0366152e-07 0.00e+00 2.41e-06  -7.0 1.26e-01  -4.9 1.00e+00 1.00e+00f  1
+  16  3.6816896e-07 0.00e+00 7.98e-07  -7.0 1.00e-01  -5.4 1.00e+00 1.00e+00f  1
 
-Number of Iterations....: 21
+Number of Iterations....: 16
 
                                    (scaled)                 (unscaled)
-Objective...............:   2.1316750532081500e-09    2.1316750532081500e-09
-Dual infeasibility......:   5.4332322326412395e-09    5.4332322326412395e-09
+Objective...............:   3.6816895626156099e-07    3.6816895626156099e-07
+Dual infeasibility......:   7.9821261229342730e-07    7.9821261229342730e-07
 Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
 Complementarity.........:   0.0000000000000000e+00    0.0000000000000000e+00
-Overall NLP error.......:   5.4332322326412395e-09    5.4332322326412395e-09
+Overall NLP error.......:   7.9821261229342730e-07    7.9821261229342730e-07
 
 
-Number of objective function evaluations             = 22
-Number of objective gradient evaluations             = 22
+Number of objective function evaluations             = 17
+Number of objective gradient evaluations             = 17
 Number of equality constraint evaluations            = 0
 Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 0
-Number of Lagrangian Hessian evaluations             = 21
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.009
+Number of Lagrangian Hessian evaluations             = 16
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.007
 Total CPU secs in NLP function evaluations           =      0.001
 
 EXIT: Optimal Solution Found.

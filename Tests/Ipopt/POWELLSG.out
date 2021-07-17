@@ -31,31 +31,28 @@ iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
   11  3.5951788e-03 0.00e+00 1.60e-04  -5.7 1.38e-02    -  1.00e+00 1.00e+00f  1
   12  7.1015877e-04 0.00e+00 4.73e-05  -5.7 9.18e-03    -  1.00e+00 1.00e+00f  1
   13  1.4027828e-04 0.00e+00 1.40e-05  -5.7 6.12e-03    -  1.00e+00 1.00e+00f  1
-  14  2.7709289e-05 0.00e+00 4.15e-06  -8.6 4.08e-03    -  1.00e+00 1.00e+00f  1
-  15  5.4734398e-06 0.00e+00 1.23e-06  -8.6 2.72e-03    -  1.00e+00 1.00e+00f  1
-  16  1.0811733e-06 0.00e+00 3.64e-07  -8.6 1.81e-03    -  1.00e+00 1.00e+00f  1
-  17  2.1356510e-07 0.00e+00 1.08e-07  -8.6 1.21e-03    -  1.00e+00 1.00e+00f  1
-  18  4.2185698e-08 0.00e+00 3.20e-08  -8.6 8.06e-04    -  1.00e+00 1.00e+00f  1
-  19  8.3329773e-09 0.00e+00 9.48e-09  -8.6 5.37e-04    -  1.00e+00 1.00e+00f  1
+  14  2.7709289e-05 0.00e+00 4.15e-06  -7.0 4.08e-03    -  1.00e+00 1.00e+00f  1
+  15  5.4734398e-06 0.00e+00 1.23e-06  -7.0 2.72e-03    -  1.00e+00 1.00e+00f  1
+  16  1.0811733e-06 0.00e+00 3.64e-07  -7.0 1.81e-03    -  1.00e+00 1.00e+00f  1
 
-Number of Iterations....: 19
+Number of Iterations....: 16
 
                                    (scaled)                 (unscaled)
-Objective...............:   2.6880572062615180e-09    8.3329773394107062e-09
-Dual infeasibility......:   9.4751592582826992e-09    2.9372993700676370e-08
+Objective...............:   3.4876557854957225e-07    1.0811732935036741e-06
+Dual infeasibility......:   3.6425695249987053e-07    1.1291965527495987e-06
 Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
 Complementarity.........:   0.0000000000000000e+00    0.0000000000000000e+00
-Overall NLP error.......:   9.4751592582826992e-09    2.9372993700676370e-08
+Overall NLP error.......:   3.6425695249987053e-07    1.1291965527495987e-06
 
 
-Number of objective function evaluations             = 20
-Number of objective gradient evaluations             = 20
+Number of objective function evaluations             = 17
+Number of objective gradient evaluations             = 17
 Number of equality constraint evaluations            = 0
 Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 0
-Number of Lagrangian Hessian evaluations             = 19
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.099
-Total CPU secs in NLP function evaluations           =      0.026
+Number of Lagrangian Hessian evaluations             = 16
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.076
+Total CPU secs in NLP function evaluations           =      0.008
 
 EXIT: Optimal Solution Found.

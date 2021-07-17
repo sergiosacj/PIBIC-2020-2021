@@ -25,26 +25,25 @@ iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
    6  8.3283023e-06 0.00e+00 1.99e-03  -3.8 3.67e-01    -  1.00e+00 1.00e+00f  1
    7  1.1931746e-08 0.00e+00 6.18e-05  -3.8 1.00e-01    -  1.00e+00 1.00e+00f  1
    8  2.8693753e-14 0.00e+00 1.06e-07  -5.7 3.30e-03    -  1.00e+00 1.00e+00f  1
-   9  5.3822225e-19 0.00e+00 2.38e-13  -8.6 5.88e-06    -  1.00e+00 1.00e+00f  1
 
-Number of Iterations....: 9
+Number of Iterations....: 8
 
                                    (scaled)                 (unscaled)
-Objective...............:   5.3822225440721871e-19    5.3822225440721871e-19
-Dual infeasibility......:   2.3750685844718544e-13    2.3750685844718544e-13
+Objective...............:   2.8693753296202327e-14    2.8693753296202327e-14
+Dual infeasibility......:   1.0610929639701921e-07    1.0610929639701921e-07
 Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
 Complementarity.........:   0.0000000000000000e+00    0.0000000000000000e+00
-Overall NLP error.......:   2.3750685844718544e-13    2.3750685844718544e-13
+Overall NLP error.......:   1.0610929639701921e-07    1.0610929639701921e-07
 
 
-Number of objective function evaluations             = 15
-Number of objective gradient evaluations             = 10
+Number of objective function evaluations             = 14
+Number of objective gradient evaluations             = 9
 Number of equality constraint evaluations            = 0
 Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 0
-Number of Lagrangian Hessian evaluations             = 9
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.004
+Number of Lagrangian Hessian evaluations             = 8
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.003
 Total CPU secs in NLP function evaluations           =      0.000
 
 EXIT: Optimal Solution Found.
