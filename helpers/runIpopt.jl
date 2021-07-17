@@ -23,7 +23,7 @@ function tests(inputFile)
         println("Started $(name)")
 
         nlp = CUTEstModel(name)
-        output = @capture_out ipopt(nlp)
+        output = @capture_out ipopt(nlp, tol=1e-6)
 
         open("Tests/Ipopt/$(name).out", "w") do io
             write(io, output)
