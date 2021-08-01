@@ -1,3 +1,4 @@
+problem    ARp        Ipopt
 ROSENBR    y          y         
 FREUROTH   n          y         
 POWELLBS   y          y         
