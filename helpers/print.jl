@@ -39,6 +39,9 @@ function printProblemInfo(output::Array, file, stop)
     @printf(file, "\n\n")
     @printf(file, "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ summary statistics ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\n")
     @printf(file, "Total iterations......: %d\n", k)
+    if k == 1
+        k+=1
+    end
     @printf(file, "AF....................: %d\n", fcnt)
     @printf(file, "AG....................: %d\n", gcnt)
     @printf(file, "AH....................: %d\n", hcnt)
