@@ -17,8 +17,6 @@ function ARp(nlp::AbstractNLPModel;
              gama2 = 10,
              kMAX = 500,
              tle = 1)
-    to = TimerOutput()
-
     # output variables
     fcnt = gcnt = hcnt = 0
     stop = 1
@@ -34,6 +32,7 @@ function ARp(nlp::AbstractNLPModel;
     gradx = grad(nlp, x)
     gcnt += 1
 
+    to = TimerOutput()
 	@timeit to "ARp" begin
         # step 1
         sigma = 0.0
@@ -42,6 +41,7 @@ function ARp(nlp::AbstractNLPModel;
         while k<kMAX
             println("iteration: $(k)")
             allsigma[k] = sigma
+            println("fcnt = $(fcnt)")
 
             # stop criteria
             if norm(gradx) <= e
@@ -59,22 +59,20 @@ function ARp(nlp::AbstractNLPModel;
 
             # step 2
             rnlp, problem, solution = @timeit to "newtonCG" solve_subproblem(nlp, sigma, x, p)
-            fcnt += 1
-            gcnt += 1
-            hcnt += 1
             stop_status = solution[2]
 
             if j == 0 && stop_status != 0
                 j = 1
                 sigma = sigma_ini
                 rnlp, problem, solution = @timeit to "newtonCG" solve_subproblem(nlp, sigma, x, p)
+                fcnt += 1
             end
 
+            fcnt += 1
             s = solution[1]
 
             objective = problem.obj(s)
             allf[k] = objective
-            fcnt += 1
 
             gradient = problem.grad(s)
             allg[k] = norm(gradient)
