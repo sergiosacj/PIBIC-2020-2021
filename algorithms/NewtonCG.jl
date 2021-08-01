@@ -19,18 +19,14 @@ using TimerOutputs
 #          2 time limit exceeded.
 
 function newtoncg(problemTools; tle = 10, e = 1e-8, itMAX = 1e3)
+    # output variables
+    fcnt = gcnt = hcnt = 0
+    stop = 1
+    x = fill(0.0, problemTools.size)
+    it = 0
+
 	to = TimerOutput()
 	@timeit to "newton_modified" begin
-		# output variables
-        fcnt = gcnt = hcnt = 0
-        it = itSUB = itBLS = 0
-        stop = 1
-        SUBf = BLSf = 0
-		allobj = zeros(Float64, Integer(itMAX))
-		all∇f = zeros(Float64, Integer(itMAX))
-		allalpha = zeros(Float64, Integer(itMAX))
-		allpnorm = zeros(Float64, Integer(itMAX))
-		x = fill(0.0, problemTools.size)
 
 		∇f = ∇fnorm = 0
 		while it<itMAX
@@ -44,26 +40,17 @@ function newtoncg(problemTools; tle = 10, e = 1e-8, itMAX = 1e3)
 			end
 
 			p, j, failure = @timeit to "linear_solver" conjugategradient(-∇f, problemTools.hess(x))
-			itSUB += j
 			hcnt += 1
-			SUBf += failure
 
 			alpha, i, failure = @timeit to "backtrack_line_search" backtracklinesearch(x, problemTools, p, ∇f)
-			itBLS += i
-			BLSf += failure
+            fcnt += 1
 
 			x = x + alpha.*p
 			it += 1
-
-            # saving data
-            allobj[it] = problemTools.obj(x)
-            all∇f[it] = ∇fnorm
-            allalpha[it] = alpha
-			allpnorm[it] = sqrt(sum(p.*p))
 		end
 	end
-    values = [allobj, all∇f, allalpha, allpnorm]
-	return x, stop
+
+	return x, stop, fcnt, gcnt, hcnt
 end
 
 function conjugategradient(r, B)
