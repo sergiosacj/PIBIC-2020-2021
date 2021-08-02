@@ -17,7 +17,7 @@ function check_if_solved(inputFile)
 
     io = open(inputFile, "r")
     readline(io) # skip first line
-    for i = 1:35
+    for i = 1:34
         # reading and parsing
         name, arp, ipopt = split(readline(io))
         arp = parse(Float64, arp)
@@ -38,4 +38,4 @@ function check_if_solved(inputFile)
     println("Ipopt solved: $(ipopt)")
 end
 
-check_if_solved("outputTests.txt")
+check_if_solved("Tests/outputTests.txt")
