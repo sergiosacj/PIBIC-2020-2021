@@ -1,0 +1,87 @@
+Olá, eu sou Sérgio Cipriano, estudante de engenharia de
+software na UnB GAMA e o meu projeto de iniciação científica
+é sobre o uso métodos de regularização para solução de problemas
+de programação não linear. Nossos objetivos nesse trabalho foram
+de implementar o método ARp (Regulariazação Adaptativa de order p+1)
+para solucionar um problema de regularização.
+
+Então, primeiro de tudo, é bom explicar o que é otimização?
+
+Dado um objetivo, ou seja, um modelo matemático ou uma medida
+quantitativa quanto ao desempenho de um sistema.
+
+E, dado um conjunto de variáveis que configurem as
+particularidades desse sistema,
+
+nossa meta é encontrar valores que otimizem
+o objetivo. E por otimizar esse objetivo eu quero dizer
+minimizar ou maximizar o sistema em questão.
+
+Então, onde é que entra regularização nisso tudo?
+
+Muitos problemas de otimização são classificados como NP-difíceis.
+Assim, não há um algoritmo polinomial que encontre soluções
+globais de um problema geral de otimização.
+
+A regularização surgiu como o processo de adicionar informações à um modelo
+de forma que resolvesse esses problemas mal-postos e de sobre-ajuste.
+
+Para entender melhor o que isso significa,
+um problema é mal-posto é aquele que não segue as seguintes propriedades:
+1. Uma solução para o problema existe;
+2. Existe no máximo uma solução;
+3. A solução depende continuamente dos dados observados,
+ou seja, o problema continua o mesmo independente, por exemplo, do ponto inicial variar.
+
+E, um sobre-ajuste, é quando um modelo estatístico corresponde quase exatamente
+ou exatamente à um conjunto de dados específico e acaba se mostrando ineficaz de
+prever novos resultados. Olhando essa imagem da para entender melhor, essa linha
+verde representa o modelo sobreajustado, enquanto a linha preta representa o modelo
+regularizado.
+Resumindo, utilizamos a regularização para encontrar soluções estáveis para problemas
+mal-postos e para resolver problemas de sobre-ajuste, que, como mostrei nessa imagem,
+foi adicionado informações com foco em eliminar os parâmetros de menor importância.
+
+Por conta disso, a pesquisa de algoritmos para problemas de otimização, das mais
+diversas formas, é um campo em constante desenvolvimento e de grande interesse
+para as mais diversas áreas.
+
+E é nesse ponto que entra nosso trabalho, onde utilizamos a estratégia de
+regularização de modelos para resolver problemas de programação não linear.
+Dito isso, do que se trata o método de regularização adaptativa?
+
+Tal como outros métodos de otimização, se baseia em 2 pilares:
+direção e passo. Direção é o caminho que vamos tomar e passo
+é o quanto vamos percorrer na direção definida.
+
+Essas direções são calculadas solucionando esse modelo de regularização,
+
+no qual, essa primeira parte, é a função objetivo, denotada pelo Polinômio
+de Taylor de grau p e avaliada na posição x + s, onde o s é a direção que
+tomamos a partir do ponto atual x.
+
+Enquanto essa segunda parte é o termo de regularização que,
+conforme eu havia dito, é responsável pela suavização dos dados.
+
+Então, tal qual outros métodos de otimização, nós tomamos
+um ponto arbitrário x_0 e executamos k iterações calculando
+x_1, x_2, ..., até que encontremos um x_k satisfatório.
+
+A cada iteração, solucionamos um problema não linear
+utilizando o algoritmo de NewtonCG, que combina o
+método de Newton com o método de gradientes conjugados,
+que é o responsável por solucionar o subproblema linear
+do método de Newton.
+
+Para validar a implementação do método proposto,
+nós realizamos experimentos numéricos com o conjunto
+de testes clássicos de Moré, Garbow e Hillstrom.
+
+E, também comparamos o desempenho do proposto
+método de regularização com o robusto Ipopt.
+
+Por fim, para ver esses experimentos completos
+e com informações detalhadas do nosso projeto,
+basta escanear esse QRcode.
+
+Muito obrigado.
