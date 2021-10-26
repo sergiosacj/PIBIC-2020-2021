@@ -10,7 +10,7 @@ function ARp(nlp::AbstractNLPModel;
              alpha = 1e-8,
              eta1 = 1000,
              eta2 = 3,
-             sigma_low = 1e-8,
+             sigma_ini = 1e-8,
              theta = 100,
              J = 20,
              gama1 = 0.5,
@@ -25,7 +25,6 @@ function ARp(nlp::AbstractNLPModel;
     allsigma = zeros(Float64, Integer(kMAX))
 
     # essencial variables
-    sigma_ini = sigma_low
     k = 1
     x = nlp.meta.x0
     s = fill(0.0, size(x))
@@ -86,13 +85,14 @@ function ARp(nlp::AbstractNLPModel;
             eta1_condition = objx - taylor(s, objx, gradx, hessx)
             eta1_condition /= max(1, abs(objx))
 
-            eta2_condition = norm(s) / max(1, norm(x))
+            eta2_condition = maximum(s) / max(1, maximum(x))
 
             # step 3 and 4
             if (j >= J || (eta1_condition <= eta1 && eta2_condition <= eta2)) && objective <= objx - alpha*norm(s)^(p+1)
                 # step 5
                 x = x + s
                 sigma_ini = gama1 * (sigma == 0.0 ? sigma_ini : sigma)
+                k+=1
                 # step 1
                 sigma = 0.0
                 j = 0
@@ -101,8 +101,6 @@ function ARp(nlp::AbstractNLPModel;
                 sigma = max(sigma_ini, gama2*sigma)
                 j += 1
             end
-
-            k+=1
         end # while
     end # timeit
     return stop, [k, fcnt, gcnt, hcnt, allf, allg, allsigma]
